@@ -9,7 +9,7 @@
     displayDataList(data)
   }).catch((err) => console.log(err))
 
-  function displayDataList(dataList) {
+  function displayDataList (dataList) {
     const dataPanel = document.getElementById('data-panel')
     let htmlContent = ''
     dataList.forEach(function (item, index) {
@@ -28,5 +28,12 @@
       `
     })
     dataPanel.innerHTML = htmlContent
+
+    // add show Movie event listener
+    dataPanel.addEventListener('click', (event) => {
+      if (event.target.matches('.btn-show-movie')) {
+        console.log(event.target)
+      }
+    })
   }
 })()
