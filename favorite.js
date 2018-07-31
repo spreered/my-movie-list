@@ -34,6 +34,8 @@
         showMovie(event.target.dataset.id)
       } else if (event.target.matches('.btn-add-favorite')) {
         addFavoriteItem(event.target.dataset.index)
+      } else if (event.target.matches('.btn-remove-favorite')) {
+        removeFavoriteItem(event.target.dataset.index)
       }
     })
     searchBtn.addEventListener('click', event => {
@@ -88,6 +90,34 @@
         alert(`Added ${obj.title} to favorite successfully !`)
       }
       localStorage.setItem('favoriteMovie', JSON.stringify(dataStorage))
+    }
+
+    function removeFavoriteItem (index) {
+      if (!index) return
+
+      // delete item and save it to localStorage
+      dataList.splice(index, 1)
+      localStorage.setItem('favoriteMovie', JSON.stringify(dataList))
+
+      // repaint dataList
+      let newContent = ''
+      dataList.forEach(function (item, index) {
+        newContent += `
+        <div class="col-sm-3">
+          <div class="card mb-2">
+            <img class="card-img-top " src="${POSTER_URL}${item.image}" alt="Card image cap">
+            <div class="card-body movie-item-body">
+              <h6 class="card-title">${item.title}</h5>
+            </div>
+            <div class="card-footer">
+            <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
+            <button class="btn btn-danger btn-remove-favorite" data-index="${index}">x</i></button>
+            </div>
+          </div>
+        </div>
+        `
+      })
+      dataPanel.innerHTML = newContent
     }
   }
 })()
