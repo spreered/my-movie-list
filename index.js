@@ -82,5 +82,16 @@
         modalDescription.textContent = `${data.description}`
       })
     }
+
+    function addFavoriteItem (index) {
+      if (!(index || index === 0)) return
+      const dataStorage = JSON.parse(localStorage.getItem('favoriteMovie')) || []
+      const obj = dataList[index]
+      if (!dataStorage.some(item => item.id == dataList[index].id)) {
+        dataStorage.push(obj)
+        alert(`Added ${obj.title} to favorite successfully !`)
+      }
+      localStorage.setItem('favoriteMovie', JSON.stringify(dataStorage))
+    }
   }
 })()
