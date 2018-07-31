@@ -36,6 +36,8 @@
     dataPanel.addEventListener('click', (event) => {
       if (event.target.matches('.btn-show-movie')) {
         showMovie(event.target.dataset.id)
+      } else if (event.target.matches('.btn-add-favorite')) {
+        addFavoriteItem(event.target.dataset.index)
       }
     })
     searchBtn.addEventListener('click', event => {
