@@ -10,6 +10,8 @@
   dataPanel.addEventListener('click', (event) => {
     if (event.target.matches('.btn-show-movie')) {
       showMovie(event.target.dataset.id)
+    } else if (event.target.matches('.btn-remove-favorite')) {
+      removeFavoriteItem(event.target.dataset.id)
     }
   })
 
@@ -49,5 +51,16 @@
       modalDate.textContent = `release at : ${data.release_date}`
       modalDescription.textContent = `${data.description}`
     })
+  }
+
+  function removeFavoriteItem (id) {
+    const index = data.findIndex(item => item.id == id)
+    if (index === -1) return
+    // delete item and save it to localStorage
+    data.splice(index, 1)
+    localStorage.setItem('favoriteMovie', JSON.stringify(data))
+
+    // repaint dataList
+    displayDataList(data)
   }
 })()
