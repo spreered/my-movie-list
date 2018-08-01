@@ -14,11 +14,15 @@
     let htmlContent = ''
     dataList.forEach(function (item, index) {
       htmlContent += `
-        <div>
-          <img src="${POSTER_URL}${item.image}">
-          <h6>${item.title}</h6>
+        <div class="col-sm-3">
+          <div class="card mb-2">
+            <img class="card-img-top " src="${POSTER_URL}${item.image}" alt="Card image cap">
+            <div class="card-body movie-item-body">
+              <h6 class="card-title">${item.title}</h5>
+            </div>
+          </div>
         </div>
-        `
+      `
     })
     dataPanel.innerHTML = htmlContent
   }
