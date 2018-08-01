@@ -7,7 +7,6 @@
   const searchBtn = document.getElementById('submit-search')
   const searchInput = document.getElementById('search')
 
-
   axios.get(INDEX_URL).then((response) => {
     data.push(...response.data.results)
     displayDataList(data)
@@ -27,8 +26,7 @@
     displayDataList(resultData)
   })
 
-
-  function displayDataList(dataList) {
+  function displayDataList (dataList) {
     let htmlContent = ''
     dataList.forEach(function (item, index) {
       htmlContent += `
@@ -40,6 +38,7 @@
             </div>
             <div class="card-footer">
               <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
+              <button class="btn btn-info btn-add-favorite" data-id="${item.id}">+</i></button>
             </div>
           </div>
         </div>
@@ -48,7 +47,7 @@
     dataPanel.innerHTML = htmlContent
   }
 
-  function showMovie(movieId) {
+  function showMovie (movieId) {
     const modalTitle = document.getElementById('show-movie-title')
     const modalImage = document.getElementById('show-movie-image')
     const modalDate = document.getElementById('show-movie-date')
