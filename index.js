@@ -4,6 +4,9 @@
   const POSTER_URL = BASE_URL + '/posters/'
   const data = []
   const dataPanel = document.getElementById('data-panel')
+  const searchBtn = document.getElementById('submit-search')
+  const searchInput = document.getElementById('search')
+
 
   axios.get(INDEX_URL).then((response) => {
     data.push(...response.data.results)
@@ -16,7 +19,16 @@
     }
   })
 
-  function displayDataList (dataList) {
+  searchBtn.addEventListener('click', event => {
+    let resultData = []
+    event.preventDefault()
+    const regex = RegExp(searchInput.value, 'i')
+    resultData = data.filter(item => item.title.match(regex))
+    displayDataList(resultData)
+  })
+
+
+  function displayDataList(dataList) {
     let htmlContent = ''
     dataList.forEach(function (item, index) {
       htmlContent += `
@@ -36,7 +48,7 @@
     dataPanel.innerHTML = htmlContent
   }
 
-  function showMovie (movieId) {
+  function showMovie(movieId) {
     const modalTitle = document.getElementById('show-movie-title')
     const modalImage = document.getElementById('show-movie-image')
     const modalDate = document.getElementById('show-movie-date')
