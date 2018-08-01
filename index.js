@@ -15,6 +15,8 @@
   dataPanel.addEventListener('click', (event) => {
     if (event.target.matches('.btn-show-movie')) {
       showMovie(event.target.dataset.id)
+    } else if (event.target.matches('.btn-add-favorite')) {
+      addFavoriteItem(event.target.dataset.id)
     }
   })
 
@@ -62,5 +64,16 @@
       modalDate.textContent = `release at : ${data.release_date}`
       modalDescription.textContent = `${data.description}`
     })
+  }
+
+  function addFavoriteItem (id) {
+    const dataStorage = JSON.parse(localStorage.getItem('favoriteMovie')) || []
+    const index = data.findIndex(item => item.id == id)
+    const obj = data[index]
+    if (!dataStorage.some(item => item.id == data[index].id)) {
+      dataStorage.push(obj)
+      alert(`Added ${obj.title} to favorite successfully !`)
+    }
+    localStorage.setItem('favoriteMovie', JSON.stringify(dataStorage))
   }
 })()
