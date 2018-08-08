@@ -6,10 +6,12 @@
   const dataPanel = document.getElementById('data-panel')
   const searchBtn = document.getElementById('submit-search')
   const searchInput = document.getElementById('search')
+  const paginationUl = document.getElementById('pagination')
+  let paginationData = []
 
   axios.get(INDEX_URL).then((response) => {
     data.push(...response.data.results)
-    displayDataList(data)
+    displayPagination(1, data)
   }).catch((err) => console.log(err))
 
   dataPanel.addEventListener('click', (event) => {
@@ -25,7 +27,13 @@
     event.preventDefault()
     const regex = RegExp(searchInput.value, 'i')
     resultData = data.filter(item => item.title.match(regex))
-    displayDataList(resultData)
+    displayPagination(1, resultData)
+  })
+
+  paginationUl.addEventListener('click', event => {
+    if (event.target.tagName === 'A') {
+      displayPagination(event.target.dataset.page)
+    }
   })
 
   function displayDataList (dataList) {
@@ -75,5 +83,24 @@
       alert(`Added ${obj.title} to favorite successfully !`)
     }
     localStorage.setItem('favoriteMovie', JSON.stringify(dataStorage))
+  }
+
+  function displayPagination (pageNum, dataList) {
+    paginationData = dataList || paginationData
+
+    // render pagination li
+    let liContent = ''
+    let totalPages = Math.ceil(paginationData.length / 10) || 1
+    for (let i = 0; i < totalPages; i++) {
+      liContent += `<li class="page-item"><a class="page-link" href="javascript:;" data-page="${i + 1}">${i + 1}</a></li>`
+    }
+    paginationUl.innerHTML = liContent
+
+    // display pagination data
+    if (pageNum > totalPages) return
+    const ITEM_PER_PAGE = 10
+    const offset = (pageNum - 1) * ITEM_PER_PAGE
+    let pageData = paginationData.slice(offset, offset + ITEM_PER_PAGE)
+    displayDataList(pageData)
   }
 })()
